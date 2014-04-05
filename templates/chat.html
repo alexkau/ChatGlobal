@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block js %}
+
+<script src="{% static "js/sockets.js" %}"></script>
+
+// <script type="text/javascript">
+//  function connect(){
+//      try{
+     
+//      var socket;
+//      var host = "ws://localhost:8001/echo";
+//      var socket = new WebSocket(host);
+     
+//          console.log('Socket Status: '+socket.readyState);
+     
+//          socket.onopen = function(){
+//              console.log('Socket Status: '+socket.readyState+' (open)');
+//          }
+     
+//          socket.onmessage = function(msg){
+//              console.log('Received: '+msg.data);
+//          }
+     
+//          socket.onclose = function(){
+//               console.log('Socket Status: '+socket.readyState+' (Closed)');
+//          }           
+     
+//      } catch(exception){
+//           console.log('Error'+exception);
+//      }
+//  }
+// </script>
+
+<script type="text/javascript">
+    $(document).ready( function() {
+    window.chat = {};
+    //Instantiate a websocket client connected to our server
+    chat.ws = $.gracefulWebSocket("ws://127.0.0.1:8001/chat");
+ 
+    //Basic message send
+    chat.send = function (message) {
+      chat.ws.send(message);
+    }
+ 
+    //Basic message receive
+    chat.ws.onmessage = function (event) {
+        var messageFromServer = event.data;
+        var list_element = document.createElement('li');
+        list_element.innerHTML = messageFromServer;
+        console.log(messageFromServer);
+        $("#message_list ul").prepend(list_element);
+    };
+ 
+    var inputbox = document.getElementById("message_in");
+ 
+    inputbox.addEventListener("keydown", function(e) {
+      if (!e) { var e = window.event; }
+ 
+      //keyCode 13 is the enter/return button keyCode
+      if (e.keyCode == 13) {
+        // enter/return probably starts a new line by default
+        e.preventDefault();
+        chat.send(inputbox.value);
+        inputbox.value="";
+      }
+    }, false);
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+<div id="messages">
+</div>
+<div id="output"></div>
+<input type="text" id="message_in" />
+{% endblock %}
