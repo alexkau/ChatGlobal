@@ -4,75 +4,58 @@
 {% block js %}
 
 <script src="{% static "js/sockets.js" %}"></script>
+<script src="{% static "js/chat.js" %}"></script>
 
-// <script type="text/javascript">
-//  function connect(){
-//      try{
-     
-//      var socket;
-//      var host = "ws://localhost:8001/echo";
-//      var socket = new WebSocket(host);
-     
-//          console.log('Socket Status: '+socket.readyState);
-     
-//          socket.onopen = function(){
-//              console.log('Socket Status: '+socket.readyState+' (open)');
-//          }
-     
-//          socket.onmessage = function(msg){
-//              console.log('Received: '+msg.data);
-//          }
-     
-//          socket.onclose = function(){
-//               console.log('Socket Status: '+socket.readyState+' (Closed)');
-//          }           
-     
-//      } catch(exception){
-//           console.log('Error'+exception);
-//      }
-//  }
-// </script>
+{% endblock %}
 
-<script type="text/javascript">
-    $(document).ready( function() {
-    window.chat = {};
-    //Instantiate a websocket client connected to our server
-    chat.ws = $.gracefulWebSocket("ws://127.0.0.1:8001/chat");
- 
-    //Basic message send
-    chat.send = function (message) {
-      chat.ws.send(message);
-    }
- 
-    //Basic message receive
-    chat.ws.onmessage = function (event) {
-        var messageFromServer = event.data;
-        var list_element = document.createElement('li');
-        list_element.innerHTML = messageFromServer;
-        console.log(messageFromServer);
-        $("#message_list ul").prepend(list_element);
-    };
- 
-    var inputbox = document.getElementById("message_in");
- 
-    inputbox.addEventListener("keydown", function(e) {
-      if (!e) { var e = window.event; }
- 
-      //keyCode 13 is the enter/return button keyCode
-      if (e.keyCode == 13) {
-        // enter/return probably starts a new line by default
-        e.preventDefault();
-        chat.send(inputbox.value);
-        inputbox.value="";
-      }
-    }, false);
-    });
-</script>
+{% block css %}
 {% endblock %}
 
 {% block content %}
-<div id="messages">
+    <div class="jumbotron">
+        <h1>Welcome to chatGLOBAL!</h1>
+        <p>chatGLOBAL is...</p>
+        <p>
+            <button type="button" class="btn btn-primary" id="getUserInfo">
+                Get started
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </button>
+        </p>
+    </div>
+
+    <div id="overlay">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h2 class="modal-title" id="myModalLabel">Let's get started</h2>
+                <form role="form" class="center-block">
+                    <div class="form-group">
+                        <label for="user_name">What's your name?</label>
+                        <input type="text" class="form-control" id="user_name" placeholder="Enter name">
+                    </div>
+                    <div class="form-group">
+                        <label for="user_lang">What's your language?</label>
+                        <select class="form-control" id="user_lang">
+                            <option value="en">English</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                        </select>
+                    </div>
+                </form>
+                <button type="button" class="btn btn-default" id="overlay_cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" id="overlay_submit">Start chatting</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="chat" class="hide">
+        <div id="messages">
+            <ul id="message_list" class="list-group">
+
+            </ul>
+        </div>
+        <input type="text" id="message_in" />
+    </div>
+
 </div>
-<div id="output"></div>
-<input type="text" id="message_in" />
+
 {% endblock %}

@@ -28,8 +28,9 @@ class Chat(LineReceiver):
 
     def setMatch(self, match):
         self.match = match
+        self.transport.write(self.match.name)
         self.transport.write("You're connected to %s\n" % self.match.name)
-        print "Matching %s (%s) to %s (%s)" % (self.name, self.lang, self.match.name, self.match.lang)
+        # print "Matching %s (%s) to %s (%s)" % (self.name, self.lang, self.match.name, self.match.lang)
 
     def connectionMade(self):
         print "Got new client!"
@@ -39,7 +40,10 @@ class Chat(LineReceiver):
     def connectionLost(self, reason):
         print "Lost a client!"
         if self.match:
-            self.match.message("Partner has disconnected")
+            if self.match.lang != "en":
+                self.match.message("Partner has disconnected")
+            else:
+                self.match.transport.write("Partner has disconnected")
 
     def dataReceived(self, data):
         if self.status == 0:
@@ -56,7 +60,7 @@ class Chat(LineReceiver):
         elif self.status == 2:
             self.match.message(data)
 
-        print "received", repr(data)
+        # print "received", repr(data)
 
     def message(self, message):
         if self.lang != self.match.lang:
