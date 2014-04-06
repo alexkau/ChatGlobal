@@ -105,16 +105,17 @@ $(document).ready( function() {
     }
 
     var inputbox = document.getElementById("message_in");
-
     inputbox.addEventListener("keydown", function(e) {
         if (!e) { var e = window.event; }
 
         //keyCode 13 is the enter/return button keyCode
         if (e.keyCode == 13) {
-            // enter/return probably starts a new line by default
             e.preventDefault();
-            chat.send(inputbox.value);
-            inputbox.value="";
+            if(inputbox.value !="")
+            {
+                chat.send(inputbox.value);
+                inputbox.value="";
+            }
         }
     }, false);
 
@@ -180,6 +181,13 @@ $(document).ready( function() {
                 height:'100%',
                 easing:'linear',
             }, 500 );
+        }
+    });
+    $("#send_message").click(function(){
+        if(inputbox.value !="")
+        {
+            chat.send(inputbox.value);
+            inputbox.value="";
         }
     });
 });

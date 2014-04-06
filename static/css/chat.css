@@ -150,3 +150,7 @@ tr.error {
 .tooltip-inner {
     width: 100px;
 }
+
+button {
+    cursor:pointer;
+}
