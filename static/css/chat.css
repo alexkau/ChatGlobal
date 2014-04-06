@@ -100,10 +100,10 @@ body {
 }
 @media (max-width: 767px) {
     #chat {
-        padding-top: 0 !important;
+        padding: 0 10px !important;
     }
     #messages {
-        height: 200px !important;
+        height: 250px !important;
     }
 }
 
