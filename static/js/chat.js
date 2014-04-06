@@ -85,6 +85,7 @@ $(document).ready( function() {
                 coloring = "system";
                 $("#message_in").attr("disabled", false);
                 $("#message_in").attr("placeholder", "Type a message!");
+                $("#message_in").focus();
             }
 
             message_td.innerHTML = message;
@@ -127,7 +128,7 @@ $(document).ready( function() {
             if(selfname == "")
             {
                 $("#user_name").parent().addClass("has-error");
-                $("#user_name").attr("placeholder", "Username is required!");
+                $("#user_name").attr("placeholder", "Name is required!");
             } else {
                 chat.sendNotInList(selfname);
                 var e = document.getElementById("user_lang");
@@ -149,6 +150,7 @@ $(document).ready( function() {
             height:'100%',
             easing:'linear',
         }, 500 );
+        setTimeout( function() { $( "#user_name" ).focus() }, 500 );
     });
     $("#overlay_cancel").click(function(){
         $("#overlay").animate({
