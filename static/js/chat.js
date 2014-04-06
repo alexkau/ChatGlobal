@@ -175,7 +175,7 @@ $(document).ready( function() {
             chat.sendNotInList(selfname);
             var e = document.getElementById("user_lang");
             chat.sendNotInList(e.options[e.selectedIndex].value);
-            #("#mainpage").remove();
+            $("#mainpage").remove();
             $("#chat").removeClass("hide");
             $("#overlay").animate({
                 top: '200%',
