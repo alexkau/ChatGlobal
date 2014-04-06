@@ -40,6 +40,7 @@ class Chat(LineReceiver):
 
     def connectionMade(self):
         print "Got new client!"
+        # print pendingUsers.qsize()
         # self.transport.write('connected ....\n')
         # self.factory.clients.append(self)
 

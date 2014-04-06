@@ -4,7 +4,7 @@
 */
 
 html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, em, img, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var,
@@ -47,6 +47,11 @@ table {
     border-spacing: 0;
 }
 
+body {
+    background: #f9f9f9;
+    overflow: hidden;
+}
+
 #carousel {
     height: 400px;
     background: #ddd;
@@ -68,7 +73,7 @@ table {
     bottom: 0;
     right: 0;
     left: 0;
-    background: #eee;
+    background: #f9f9f9;
     padding: 50px;
 }
     #overlay .inner {
@@ -90,23 +95,23 @@ table {
     bottom: 0;
     right: 0;
     left: 0;
-    background: #eee;
+    background: #f9f9f9;
     padding: 50px;
 }
 .hide {
     display: none;
 }
 #messages {
-    width: 600px;
+    width: 100%;
     height: 400px;
     background-color: #f7f7f9;
-    border: 1px solid #e1e1e8;
+    border: 1px solid #ddd;
     overflow-y: scroll;
     overflow-x: hidden;
 }
 #message_list {
     margin-bottom: 0 !important;
-    width: 598px;
+    width: 100%;
 }
 #messages tr {
     border-bottom: 1px solid #ddd;

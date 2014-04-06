@@ -6,6 +6,26 @@ function init() {
     window.coloring = "";
     window.currentmsg = 0;
     chat.ws = new WebSocket("ws://127.0.0.1:8001/chat");
+
+    var messagesRoot = document.getElementById("message_list");
+    while (messagesRoot.firstChild) {
+        messagesRoot.removeChild(messagesRoot.firstChild);
+    }
+    var row = document.createElement('tr');
+    var selfname_td = document.createElement('td');
+    var message_td = document.createElement('td');
+    
+    $("#message_in").attr("disabled", true);
+
+    selfname_td.innerHTML = "System";
+    message_td.innerHTML = "Waiting for a partner...";
+    $("#message_list").append(row);
+
+    $("#message_list tr").last().append(selfname_td);
+    $("#message_list tr").last().append(message_td);
+    $("#message_list tr").last().addClass("system");
+    $("#messages").animate({scrollTop: $("#messages").prop("scrollHeight")}, 400);
+
 }
 
 $(document).ready( function() {
@@ -47,6 +67,7 @@ $(document).ready( function() {
                 'title': message.slice(5),
                 'placement': 'right',
                 'container': '#messages',
+                'delay': {show: 400, hide: 0},
             });
         } else {
             var row = document.createElement('tr');
@@ -62,6 +83,8 @@ $(document).ready( function() {
             } else if (prefix == "S") {
                 theirname_td.innerHTML = "System";
                 coloring = "system";
+                $("#message_in").attr("disabled", false);
+                $("#message_in").attr("placeholder", "Type a message!");
             }
 
             message_td.innerHTML = message;
@@ -73,6 +96,11 @@ $(document).ready( function() {
             $("#messages").animate({scrollTop: $("#messages").prop("scrollHeight")}, 400);
         }
     };
+
+    window.onbeforeunload = function() {
+        chat.ws.onclose = function () {};
+        chat.ws.close();
+    }
 
     var inputbox = document.getElementById("message_in");
 
@@ -96,15 +124,21 @@ $(document).ready( function() {
         if (e.keyCode == 13) {
             e.preventDefault();
             selfname = document.getElementById("user_name").value;
-            chat.sendNotInList(selfname);
-            var e = document.getElementById("user_lang");
-            chat.sendNotInList(e.options[e.selectedIndex].value);
-            $("#chat").removeClass("hide");
-            $("#overlay").animate({
-                top: '200%',
-                height:'100%',
-                easing:'linear',
-            }, 500 );
+            if(selfname == "")
+            {
+                $("#user_name").parent().addClass("has-error");
+                $("#user_name").attr("placeholder", "Username is required!");
+            } else {
+                chat.sendNotInList(selfname);
+                var e = document.getElementById("user_lang");
+                chat.sendNotInList(e.options[e.selectedIndex].value);
+                $("#chat").removeClass("hide");
+                $("#overlay").animate({
+                    top: '200%',
+                    height:'100%',
+                    easing:'linear',
+                }, 500 );
+            }
         }
     }, false);
 
@@ -125,16 +159,25 @@ $(document).ready( function() {
     });
     $("#overlay_submit").click(function(){
         selfname = document.getElementById("user_name").value;
-        chat.sendNotInList(selfname);
-        var e = document.getElementById("user_lang");
-        chat.sendNotInList(e.options[e.selectedIndex].value);
-        $("#chat").removeClass("hide");
-        $("#overlay").animate({
-            top: '200%',
-            height:'100%',
-            easing:'linear',
-        }, 500 );
+        if(selfname == "")
+        {
+            $("#user_name").parent().addClass("has-error");
+            $("#user_name").attr("placeholder", "Username is required!");
+            // $("#username_alert").animate({
+            //     height:'48px',
+            //     easing:'linear',
+            // }, 300 );
+        } else {
+            chat.sendNotInList(selfname);
+            var e = document.getElementById("user_lang");
+            chat.sendNotInList(e.options[e.selectedIndex].value);
+            $("#chat").removeClass("hide");
+            $("#overlay").animate({
+                top: '200%',
+                height:'100%',
+                easing:'linear',
+            }, 500 );
+        }
     });
-
 });
 
