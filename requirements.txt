@@ -1,4 +1,4 @@
-Twisted==13.1.0
+-e git://github.com/twisted/twisted.git@websockets-4173-4#egg=Twisted
 argparse==1.2.1
 cffi==0.8.2
 cryptography==0.3

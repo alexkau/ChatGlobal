@@ -9,3 +9,17 @@ ChatGlobal makes use of several existing packages:
 * [Twisted](http://twistedmatrix.com/trac/) is for the matching and translation server.
 * [jQuery](http://jquery.com/) is used to assist with the frontend javascript.
 * [Bootstrap](http://getbootstrap.com/) is used for the frontend styling framework.
+
+Running ChatGlobal
+------------------
+
+Install the requirements on the server:
+`pip install -r requirements.txt`
+
+Edit the `WebSocket()` declaration at the top of /static/chat.js to point to your server's IP.
+
+Run the Twisted server:
+`./runserver.sh`
+Ensure that Port 8001 is open.
+
+Serve /index.html and /static via your web server of choice.
