@@ -105,6 +105,9 @@ body {
     #messages {
         height: 250px !important;
     }
+    .form-horizontal .control-label {
+        padding-bottom: 7px;
+    }
 }
 
 .hide {
