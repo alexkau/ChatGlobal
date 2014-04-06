@@ -144,3 +144,6 @@ tr.system {
 tr.error {
     background-color: #ebcccc;
 }
+.tooltip-inner {
+    width: 100px;
+}

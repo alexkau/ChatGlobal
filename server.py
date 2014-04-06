@@ -20,6 +20,9 @@ languages = {
     "en": "English",
     "fr": "French",
     "es": "Spanish",
+    "ja": "Japanese",
+    "ru": "Russian",
+    "zh-CN": "Chinese",
 }
 service = build('translate', 'v2',
                 developerKey='AIzaSyA6YjQwwDPZ52y8ejL9oemcvAc6rnAwwig')
@@ -74,13 +77,13 @@ class Chat(LineReceiver):
         # print "received", repr(data)
 
     def message(self, prefix, message, lang_to="", lang_from=""):
-        try:
+        # try:
             if lang_to != "" and lang_from != "":
                 if lang_to != lang_from:
                     translated = service.translations().list(
                         source=lang_from,
                         target=lang_to,
-                        q=[message]
+                        q=[message.decode('utf-8')]
                     ).execute()
 
                     translated = json.loads(json.dumps(translated))
@@ -88,10 +91,10 @@ class Chat(LineReceiver):
             self.transport.write(prefix + message + '\n')
             # print "Writing %s to %s" % (prefix+message, self.name)
             return message
-        except:
-            if self.match:
-                self.match.transport.write("EError sending message. Try again." + '\n')
-                return False
+        # except:
+        #     if self.match:
+        #         self.match.transport.write("EError sending message. Try again." + '\n')
+        #         return False
 
 from twisted.internet.protocol import Factory
 

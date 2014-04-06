@@ -6,6 +6,7 @@ function init() {
     window.coloring = "";
     window.currentmsg = 0;
     chat.ws = new WebSocket("ws://192.241.131.216:8001/chat");
+    //chat.ws = new WebSocket("ws://localhost:8001/chat");
 
     var messagesRoot = document.getElementById("message_list");
     while (messagesRoot.firstChild) {
