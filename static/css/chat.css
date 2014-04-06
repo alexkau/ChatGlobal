@@ -50,6 +50,7 @@ table {
 body {
     background: #f9f9f9;
     overflow: hidden;
+    overflow-y: auto;
 }
 
 #carousel {
@@ -89,7 +90,7 @@ body {
 #chat {
     position: absolute;
     z-index: 999;
-    height: 100%;
+    /*height: 100%;*/
     opacity: 1;
     top: 0;
     bottom: 0;

@@ -166,7 +166,7 @@ $(document).ready( function() {
         if(selfname == "")
         {
             $("#user_name").parent().addClass("has-error");
-            $("#user_name").attr("placeholder", "Username is required!");
+            $("#user_name").attr("placeholder", "Name is required!");
             // $("#username_alert").animate({
             //     height:'48px',
             //     easing:'linear',
