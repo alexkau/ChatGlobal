@@ -106,7 +106,7 @@ $(document).ready( function() {
 
     inputbox.addEventListener("keydown", function(e) {
         if (!e) { var e = window.event; }
-         
+
         //keyCode 13 is the enter/return button keyCode
         if (e.keyCode == 13) {
             // enter/return probably starts a new line by default
