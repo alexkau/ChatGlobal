@@ -20,6 +20,7 @@ Edit the `WebSocket()` declaration at the top of /static/chat.js to point to you
 
 Run the Twisted server:
 `./runserver.sh`
+
 Ensure that Port 8001 is open.
 
 Serve /index.html and /static via your web server of choice.
