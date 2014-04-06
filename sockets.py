@@ -15,7 +15,7 @@ from Queue import Queue
 from apiclient.discovery import build
 import json
 
-pendingUsers = Queue()
+pending = None
 languages = {
     "en": "English",
     "fr": "French",
@@ -46,19 +46,24 @@ class Chat(LineReceiver):
 
     def connectionLost(self, reason):
         print "Lost a client!"
+        global pending
+        if pending == self:
+            pending = None
         if self.match:
             self.match.message("E", "Partner has disconnected", self.match.lang, "en")
 
     def dataReceived(self, data):
+        global pending
         if self.status == 0:
             self.name = data
             self.status = 1
         elif self.status == 1:
             self.lang = data
-            if pendingUsers.empty():
-                pendingUsers.put(self)
+            if pending == None:
+                pending = self
             else:
-                self.setMatch(pendingUsers.get())
+                self.setMatch(pending)
+                pending = None
                 self.match.setMatch(self)
             self.status = 2
         elif self.status == 2:
