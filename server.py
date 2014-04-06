@@ -61,8 +61,11 @@ class Chat(LineReceiver):
         if self.status == 0:
             self.name = data
             self.status = 1
+            print "Name received: " + self.name
         elif self.status == 1:
             self.lang = data
+            print "Lang received: " + self.lang
+            print "Pending is " + pending.name
             if pending == None:
                 pending = self
             else:
