@@ -98,6 +98,15 @@ body {
     background: #f9f9f9;
     padding: 50px;
 }
+@media (max-width: 767px) {
+    #chat {
+        padding-top: 0 !important;
+    }
+    #messages {
+        height: 200px !important;
+    }
+}
+
 .hide {
     display: none;
 }
