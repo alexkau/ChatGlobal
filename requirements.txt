@@ -1,0 +1,14 @@
+Twisted==13.1.0
+argparse==1.2.1
+cffi==0.8.2
+cryptography==0.3
+gevent==1.0
+google-api-python-client==1.2
+greenlet==0.4.2
+httplib2==0.8
+pyOpenSSL==0.14
+pycparser==2.10
+six==1.6.1
+websocket==0.2.1
+wsgiref==0.1.2
+zope.interface==4.1.1
