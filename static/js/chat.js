@@ -1,9 +1,10 @@
 function init() {
     window.chat = {};
-    var selfname = null;
-    var theirname = null;
-    var prefix = "";
-    var coloring = "";
+    window.selfname = null;
+    window.theirname = null;
+    window.prefix = "";
+    window.coloring = "";
+    window.currentmsg = 0;
     chat.ws = new WebSocket("ws://127.0.0.1:8001/chat");
 }
 
@@ -27,8 +28,10 @@ $(document).ready( function() {
         $("#message_list tr").last().append(selfname_td);
         $("#message_list tr").last().append(message_td);
         $("#message_list tr").last().addClass("self");
+        $("#message_list tr").last().addClass("message_" + ("00000" + currentmsg).slice(-5));
         $("#messages").animate({scrollTop: $("#messages").prop("scrollHeight")}, 400);
-        chat.ws.send(message);
+        chat.ws.send(("00000" + currentmsg).slice(-5) + message);
+        currentmsg++;
     }
 
     //Basic message receive
@@ -37,6 +40,14 @@ $(document).ready( function() {
         message = event.data.slice(1);
         if (prefix == "N") {
             theirname = message;
+        } else if (prefix == "T") {
+            console.log(message);
+            //$("message_" + message.slice(0,5)).attr("alt", message.slice(5));
+            $(".message_" + message.slice(0,5)).tooltip({
+                'title': message.slice(5),
+                'placement': 'right',
+                'container': '#messages',
+            });
         } else {
             var row = document.createElement('tr');
             var theirname_td = document.createElement('td');

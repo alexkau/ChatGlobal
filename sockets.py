@@ -61,13 +61,14 @@ class Chat(LineReceiver):
                 self.match.setMatch(self)
             self.status = 2
         elif self.status == 2:
-            self.match.message("M", data, self.match.lang, self.lang)
+            response = self.match.message("M", data[5:], self.match.lang, self.lang)
+            if self.lang != self.match.lang and response:
+                self.message("T" + data[:5], response, "en", "en")
 
         # print "received", repr(data)
 
     def message(self, prefix, message, lang_to="", lang_from=""):
         try:
-            print "Translating %s from %s to %s" % (message,lang_from,lang_to)
             if lang_to != "" and lang_from != "":
                 if lang_to != lang_from:
                     translated = service.translations().list(
@@ -78,11 +79,14 @@ class Chat(LineReceiver):
 
                     translated = json.loads(json.dumps(translated))
                     message = translated["translations"][0]["translatedText"].encode('utf8')
-                print "Final message is %s" % message
             self.transport.write(prefix + message + '\n')
+            # print "Writing %s to %s" % (prefix+message, self.name)
+            return message
         except:
             if self.match:
                 self.match.transport.write("EError sending message. Try again." + '\n')
+                return False
+
 from twisted.internet.protocol import Factory
 
 class ChatFactory(Factory):
