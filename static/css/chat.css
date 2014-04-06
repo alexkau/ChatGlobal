@@ -97,22 +97,36 @@ table {
     display: none;
 }
 #messages {
-    width: 800px;
+    width: 600px;
     height: 400px;
     background-color: #f7f7f9;
     border: 1px solid #e1e1e8;
     overflow-y: scroll;
+    overflow-x: hidden;
+}
+#message_list {
+    margin-bottom: 0 !important;
+    width: 598px;
+}
+#messages tr {
+    border-bottom: 1px solid #ddd;
+}
+#messages td {
+    padding: 10px 15px;
+}
+#messages td:first-child {
+    border-right: 1px solid #ddd;
 }
 
-#messages li {
-    padding: 10px 15px;
-    margin-bottom: -1px;
-    border: 1px solid #ddd;
-}
-li.self {
+tr.self {
     background-color: #fcf8e3;
 }
-
-li.partner {
+tr.partner {
     background-color: #dff0d8;
+}
+tr.system {
+    background-color: #d9edf7;
+}
+tr.error {
+    background-color: #ebcccc;
 }

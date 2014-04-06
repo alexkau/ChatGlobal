@@ -16,6 +16,11 @@ from apiclient.discovery import build
 import json
 
 pendingUsers = Queue()
+languages = {
+    "en": "English",
+    "fr": "French",
+    "es": "Spanish",
+}
 service = build('translate', 'v2',
                 developerKey='AIzaSyA6YjQwwDPZ52y8ejL9oemcvAc6rnAwwig')
 
@@ -28,8 +33,9 @@ class Chat(LineReceiver):
 
     def setMatch(self, match):
         self.match = match
-        self.transport.write(self.match.name)
-        self.transport.write("You're connected to %s\n" % self.match.name)
+        print "Sending initial match message to %s" % self.name
+        self.message("N", self.match.name)
+        self.message("S", "You're connected to %s (%s)" % (self.match.name, languages[self.match.lang]), self.lang, "en")
         # print "Matching %s (%s) to %s (%s)" % (self.name, self.lang, self.match.name, self.match.lang)
 
     def connectionMade(self):
@@ -40,10 +46,7 @@ class Chat(LineReceiver):
     def connectionLost(self, reason):
         print "Lost a client!"
         if self.match:
-            if self.match.lang != "en":
-                self.match.message("Partner has disconnected")
-            else:
-                self.match.transport.write("Partner has disconnected")
+            self.match.message("E", "Partner has disconnected", self.match.lang, "en")
 
     def dataReceived(self, data):
         if self.status == 0:
@@ -58,21 +61,28 @@ class Chat(LineReceiver):
                 self.match.setMatch(self)
             self.status = 2
         elif self.status == 2:
-            self.match.message(data)
+            self.match.message("M", data, self.match.lang, self.lang)
 
         # print "received", repr(data)
 
-    def message(self, message):
-        if self.lang != self.match.lang:
-            translated = service.translations().list(
-                source=self.match.lang,
-                target=self.lang,
-                q=[message]
-            ).execute()
-            translated = json.loads(json.dumps(translated))
-            message = translated["translations"][0]["translatedText"].encode('utf8')
-        self.transport.write(message + '\n')
+    def message(self, prefix, message, lang_to="", lang_from=""):
+        try:
+            print "Translating %s from %s to %s" % (message,lang_from,lang_to)
+            if lang_to != "" and lang_from != "":
+                if lang_to != lang_from:
+                    translated = service.translations().list(
+                        source=lang_from,
+                        target=lang_to,
+                        q=[message]
+                    ).execute()
 
+                    translated = json.loads(json.dumps(translated))
+                    message = translated["translations"][0]["translatedText"].encode('utf8')
+                print "Final message is %s" % message
+            self.transport.write(prefix + message + '\n')
+        except:
+            if self.match:
+                self.match.transport.write("EError sending message. Try again." + '\n')
 from twisted.internet.protocol import Factory
 
 class ChatFactory(Factory):

@@ -3,7 +3,6 @@
 
 {% block js %}
 
-<script src="{% static "js/sockets.js" %}"></script>
 <script src="{% static "js/chat.js" %}"></script>
 
 {% endblock %}
@@ -49,9 +48,9 @@
 
     <div id="chat" class="hide">
         <div id="messages">
-            <ul id="message_list" class="list-group">
+            <table id="message_list" class="list-group">
 
-            </ul>
+            </table>
         </div>
         <input type="text" id="message_in" />
     </div>
