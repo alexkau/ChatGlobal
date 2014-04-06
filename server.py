@@ -65,10 +65,12 @@ class Chat(LineReceiver):
         elif self.status == 1:
             self.lang = data
             print "Lang received: " + self.lang
-            print "Pending is " + pending.name
             if pending == None:
+                print "Pending is empty"
                 pending = self
+                print "Pending is now " + self.name
             else:
+                print "Pending is " + pending.name
                 self.setMatch(pending)
                 pending = None
                 self.match.setMatch(self)
