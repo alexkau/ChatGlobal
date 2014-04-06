@@ -20,6 +20,7 @@ languages = {
     "en": "English",
     "fr": "French",
     "es": "Spanish",
+    "de": "German",
     "ja": "Japanese",
     "ru": "Russian",
     "zh-CN": "Chinese",
