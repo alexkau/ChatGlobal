@@ -15,7 +15,7 @@ ChatGlobal makes use of several existing packages:
 Running ChatGlobal
 ------------------
 
-Install the requirements on the server:
+Install the requirements on the server. Using a virtualenv is recommended.
 `pip install -r requirements.txt`
 
 Edit the `WebSocket()` declaration at the top of /static/chat.js to point to your server's IP.
@@ -25,4 +25,4 @@ Ensure that Port 8001 on your server is open.
 Run the Twisted server:
 `./runserver.sh`
 
-Serve /index.html and /static via your web server of choice.
+Serve /index.html and /static via your web server of choice. They don't have to be served by the same machine that's running the Twisted server.
