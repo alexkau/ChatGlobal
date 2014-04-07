@@ -3,6 +3,8 @@ ChatGlobal
 
 Break the language barrier. Chat around the world.
 
+Judged "Best Overall Hack" at [Hack Upstate](http://www.hackupstate.com/) Spring 2014.
+
 ChatGlobal is a chat service that randomly connects you to another user, who could be anywhere from across the street to across the world. Chat is automatically translated into each user's native language, so you never have to worry about language differences.
 
 ChatGlobal makes use of several existing packages:
